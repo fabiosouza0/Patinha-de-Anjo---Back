@@ -14,6 +14,7 @@ Este é o back-end do projeto, contendo:
 1. Instale a versão mais recente do [Composer](https://getcomposer.org).
 2. Criar a conexão com o banco de dados MySQL através do [XAMPP](https://www.apachefriends.org/pt_br/index.html) ou outro aplicativo. Obs: é necessário criar a database através do comando `create database patinha_de_anjo_db`.
 3. Abra um CMD, navegue até a pasta do projeto e utilize o comando `composer install` para instalar as dependências.
+4. Ainda no CMD, utilize o comando `php artisan migrate:refresh` criar as tabelas no banco de dados.
 4. Ainda no CMD, utilize o comando `php artisan serve` para inicializar a API.
 
 E por fim, para acessar a api, utilize o link `http://127.0.0.1:8000/api/clientes`.
