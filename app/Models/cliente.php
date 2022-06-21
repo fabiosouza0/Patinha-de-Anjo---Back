@@ -4,6 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
+Builder::macro('whereLike', function($data) {
+    $this->where(function($query) use ($data) {
+        foreach(array_keys($data) as $key) {
+            $query->where($key, 'LIKE', "%{$data[$key]}%");
+        }
+    });
+    return $this;
+});
 
 class cliente extends Model
 {
@@ -35,4 +45,6 @@ class cliente extends Model
         'id_especie' => 'int',
         'petPeso' => 'float'
     ];
+
+    
 }

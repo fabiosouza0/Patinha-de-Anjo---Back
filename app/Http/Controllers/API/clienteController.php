@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\cliente;
 use App\Http\Resources\clienteResource;
 use Illuminate\Http\Request;
+use Request as Request2;
 use Illuminate\Support\Facades\Validator;
 
 class clienteController extends Controller
@@ -17,8 +18,22 @@ class clienteController extends Controller
      */
     public function index()
     {
+
         $clientes = Cliente::all();
-        return response([ 'data' => clienteResource::collection($clientes), 'message' => 'Retrieved successfully.'], 200);
+        $content = Request2::all();
+        if (!empty($content)) {
+            $valid_keys = ['id', 'nome', 'cpf', 'telefone', 'cep', 'id_estado', 'cidade', 'logradouro', 'bairro', 'numero', 'complemento', 'petNome', 'petSexo', 'id_especie', 'petRaca', 'petPeso', 'observacao'];
+            $result = [];
+
+            foreach(array_keys($content) as $key) {
+                
+                if (in_array($key , $valid_keys)) {
+                    $result = $result + [$key => $content[$key]];
+                }
+            }
+            $clientes = Cliente::whereLike($result)->get();
+        }
+        return response(['data' => clienteResource::collection($clientes), 'message' => 'Retrieved successfully.'], 200);
     }
 
     /**
@@ -29,6 +44,7 @@ class clienteController extends Controller
      */
     public function store(Request $request)
     {
+        // $data = Request::all();
         $data = $request->all();
 
         $validator = Validator::make($data, [
